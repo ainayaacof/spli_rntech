@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SPLI RN TECH | Dashboard</title>
+  <title>SPLI RNTECH | Dashboard</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
@@ -110,26 +110,26 @@ if ($result->num_rows > 0) {
                 $lastInternDate = new DateTime($lastInternDateString);
 
                 // Calculate the difference in days
-                $totalDays = $startInternDate->diff($lastInternDate)->days;
+                $totalDays = $startInternDate->diff($lastInternDate)->days + 1;
 
                 // Calculate the difference between today and the start intern date
                 $daysPassed = $startInternDate->diff(new DateTime())->days + 1;
 
                 // Display the result in your HTML
                 echo "<div class='small-box bg-info'>
-            <div class='inner'>
-              <h3>{$daysPassed}/{$totalDays}</h3>
-              <p>Hari Latihan Industri</p>
-            </div>
-            <div class='icon'>
-              <i class='ion ion-android-calendar'></i>
-            </div>
-            <a href='#' class='small-box-footer'><i class='ion-calendar'></i></a>
-          </div>";
-              } else {
-                // Handle the case where the query fails
-                echo "Error: " . mysqli_error($conn);
-              }
+                <div class='inner'>
+                  <h3>{$daysPassed}/{$totalDays}</h3>
+                  <p>Hari Latihan Industri</p>
+                </div>
+                <div class='icon'>
+                  <i class='ion ion-android-calendar'></i>
+                </div>
+                <a href='#' class='small-box-footer'><i class='ion-calendar'></i></a>
+              </div>";
+                  } else {
+                    // Handle the case where the query fails
+                    echo "Error: " . mysqli_error($conn);
+                  }
               ?>
 
             </div>
