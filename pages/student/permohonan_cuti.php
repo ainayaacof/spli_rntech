@@ -48,98 +48,28 @@
             <img src="../../assets/img/loading.png" alt="Loading..." class="spinning-image">
         </div>
 
-        <?php
+         <?php 
         session_start();
 
-        if (isset($_SESSION['name']) == '') {
-            header("Location: ../login.php");
-        }
-
+       
         include "../conn.php";
 
-        $sql = "SELECT * FROM `student` WHERE name = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $_SESSION['name']);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // $sql = "SELECT * FROM `student` WHERE name = ?";
+        // $stmt = $conn->prepare($sql);
+        // $stmt->bind_param("s", $_SESSION['name']);
+        // $stmt->execute();
+        // $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $user_id = $row['student_id'];
-                $name = $row['name'];
-            }
-        }
+        // if ($result->num_rows > 0) {
+        //     while ($row = $result->fetch_assoc()) {
+        //         $user_id = $row['student_id'];
+        //         $name = $row['name'];
+        //     }
+        // }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Retrieve form data
-            $reason = $_POST["reason"];
-            $date_leave = $_POST["date_leave"];
-            $date_end = $_POST["date_end"];
+        // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            // Set status and approved_by values
-            $status = "Baru";  // Set the initial status to "mohon"
-            $approved_by = 0;  // Set approved_by to null as it's not approved yet
         
-            // File upload handling
-            $targetDirectory = "../upload/";
-
-            // Create the directory if it doesn't exist
-            if (!file_exists($targetDirectory)) {
-                mkdir($targetDirectory, 0777, true);
-            }
-
-            $targetFile = basename($_FILES["inputFile"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-            // Check file size
-            if ($_FILES["inputFile"]["size"] > 5000000) {
-                $uploadOk = 0;
-                echo "<script type='text/javascript'>
-                alert('Fail Saiz Terlalu Besar. Fail saiz perlu kurang daripada 5 MB.');
-                </script>";
-                exit();
-            } else {
-                if (empty($reason) || empty($date_leave) || empty($date_end)) {
-                } else {
-                    // Insert data into the database
-                    $query = "INSERT INTO leave_app (student_id, reason, date_apply, date_leave, date_end, support_doc, status, approved_by)
-                    VALUES (?, ?, NOW(), ?, ?, ?, ?, ?)";
-                    $stmt = $conn->prepare($query);
-
-                    // Check if the prepare statement was successful
-                    if (!$stmt) {
-                        echo "Error in preparing the statement: " . $conn->error;
-                        exit();
-                    }
-
-                    $stmt->bind_param("sssssss", $_SESSION['id'], $reason, $date_leave, $date_end, $targetFile, $status, $approved_by);
-                    // Display a success message using JavaScript
-                    echo '<script type="text/javascript">
-                        Swal.fire({
-                            title: "Berjaya Hantar",
-                            text: "Permohonan cuti anda telah dihantar",
-                            icon: "success"
-                        });
-                    </script>';
-                    // Execute the query
-                    if ($stmt->execute()) {
-                        if (move_uploaded_file($_FILES["inputFile"]["tmp_name"], $targetDirectory . $targetFile)) {
-                            error_log('File moved successfully to: ' . $targetDirectory . $targetFile);
-                        } else {
-                            error_log('Failed to move file to: ' . $targetDirectory . $targetFile);
-                        }
-                    } else {
-                        echo "<script type='text/javascript'>
-                            alert('Ralat Semasa Memasukkan Aduan. Terjadi ralat semasa memasukkan aduan. Sila cuba lagi.');
-                        </script>";
-                    }
-                    // Close statement and connection
-                    $stmt->close();
-                }
-            }
-            $conn->close();
-        }
         ?>
 
 
@@ -176,8 +106,8 @@
                                     <h3 class="card-title">Borang Permohonan Cuti</h3>
                                 </div>
                                 <!-- /.card-header -->
-                                <form id="cuti" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-                                    method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                <form id="cuti" action="permohonan_cutiDB.php"
+                                    method="POST" enctype="multipart/form-data">
                                     <div class="card-body">
                                         <div class="form-group row">
                                             <label for="title" class="col-sm-2 col-form-label">Sebab Cuti<span
@@ -217,8 +147,8 @@
                                             </div>
                                         </div>
                                         <div style="text-align: right; margin-right: 0px;">
-                                            <button type="submit" class="btn btn-primary" name="submit"
-                                                id="submit">Hantar</button>
+                                            <button type="submit" class="btn btn-primary" name="hntar"
+                                                id="submitPermohonan">Hantar</button>
                                         </div>
                                     </div>
 
@@ -243,7 +173,7 @@
 
     <!-- Page specific script -->
     <script>
-        //Disply the selected File
+        //Display the selected File
         function displayFileName() {
             // Get the selected file input
             var inputFile = document.getElementById('inputFile');
@@ -279,13 +209,43 @@
                 return false;
             }
             // Check if the file input is empty
-            if (inputFile.value === "") {
-                var isConfirmed = confirm("Anda tidak lampirkan bukti yang dapat mengukuhkan permohonan cuti. Anda pasti?");
-                return isConfirmed;
-            }
+             if (inputFile.value === "") {
+                 var isConfirmed = confirm("Anda tidak lampirkan bukti yang dapat mengukuhkan permohonan cuti. Anda pasti?");
+                 return isConfirmed;
+             }
         };
     </script>
+    	<script>
+		$(document).ready(function () {
+            var isConfirmed = false;
+			// Attach the form submission handling to the "Save" button click event
+			$('#submitPermohonan').on('click', function (e) {
+                
+				e.preventDefault();
+				var form = $('#cuti'); // Get the form element
+				
+					// Proceed with the SweetAlert confirmation
+					Swal.fire({
+						title: 'Anda pasti mahu simpan?',
+						text: 'Perubahan akan disimpan!',
+						icon: 'question',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Ya, simpan!',
+						cancelButtonText: 'Batal'
+					}).then((result) => {
+						// Check if the user clicked "Ya, simpan!"
+						if (result.value) {
+                            isConfirmed = result.value;
+							form.submit(); // Submit the form
+						}
+					});
+				
 
+			});
+		});
+		</script>
 </body>
 
 </html>
