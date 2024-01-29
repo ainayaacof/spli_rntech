@@ -98,7 +98,7 @@ include "../conn.php";
                   <div class="mb-3">
                     <label for="time">Jumlah Masa</label>
                     <!-- <input type="time" class="form-control" name="time" value="">  -->
-                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="100" value="<?php echo $row["total_time"]; ?>" >
+                    <input type="number" class="form-control" id="quantity" name="quantity" min="0" max="100" value="" required>
 
 
 
