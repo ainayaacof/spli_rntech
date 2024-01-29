@@ -1,0 +1,107 @@
+:root {
+  --primary-color: #001f3f;
+  --text-color: #1d1d1d;
+  --bg-color: #ffffff;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #ffffff;
+}
+.container {
+  width: 100%;
+  min-height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.calendar {
+  width: 100%;
+  max-width: 800px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-color);
+}
+.calendar .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #001f3f;
+}
+.calendar .header .month {
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.calendar .header .btns {
+  display: flex;
+  gap: 10px;
+}
+.calendar .header .btns .btn {
+  width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: #f7f7f7;
+  background-color: var(--primary-color);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.calendar .header .btns .btn:hover {
+  background-color: #0151a0;
+  transform: scale(1.05);
+}
+.weekdays {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.weekdays .day {
+  width: calc(100% / 7 - 10px);
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.days .day {
+  width: calc(100% / 7 - 10px);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-color);
+  background-color: #ebebeb;
+  transition: all 0.3s;
+}
+.days .day:not(.next):not(.prev):hover {
+  color: #fff;
+  background-color: var(--primary-color);
+  transform: scale(1.05);
+}
+.days .day.today {
+  color: #ffffff;
+  background-color: var(--primary-color);
+}
+.days .day.next,
+.days .day.prev {
+  color: #126bc4;
+}
