@@ -116,7 +116,7 @@ include "../conn.php";
                     <!-- <label for="pdfFile">Choose a file:</label> -->
                     <!-- <input type="file" name="pdfFile" id="pdfFile" accept=".pdf"> -->
                     <br>
-                    <button type="submit" class="btn btn-primary" style="margin:5px;" name="submit">Simpan</button>
+                    <button type="submit" class="btn btn-primary" style="margin:5px;" name="submit">Simpan Je</button>
                     <a href="tugasan.php?student_id=<?php echo $id; ?>&unique_week=<?php echo $unique_week; ?>" class="btn btn-secondary" style="margin:5px;">Kembali</a>
 
                   </div>
