@@ -80,7 +80,7 @@ include "../conn.php";
               <h3 class="card-title">Maklumat Aktiviti Tugasan</h3>
             </div>
             <div class="card-body">
-              <form method='post' action='maklumat_tugasan_pelajar_save.php?id=<?php echo $id; ?>' enctype='multipart/form-data'>
+              <form method='post' id='formIDAduan'action='maklumat_tugasan_pelajar_save.php?id=<?php echo $id; ?>' enctype='multipart/form-data'>
                 <div class="form-group">
                   <div class="mb-3">
                     <label for="week">Minggu</label>
@@ -115,7 +115,7 @@ include "../conn.php";
                     <!-- <label for="pdfFile">Choose a file:</label> -->
                     <!-- <input type="file" name="pdfFile" id="pdfFile" accept=".pdf"> -->
                     <br>
-                    <button type="submit" id="btnSave" class="btn btn-primary" style="margin:5px;" name="submit">Simpan</button>
+                    <button type="submit" id="btnSave" class="btn btn-primary" style="margin:5px;">Simpan</button>
                     <a href="tugasan_pelajar.php?>" class="btn btn-secondary" style="margin:5px;">Kembali</a>
 
                   </div>
