@@ -189,7 +189,7 @@ if ($result->num_rows > 0) {
 														</div>
 													<?php } else { ?>
 														<div style="text-align: right; margin-right:0px;">
-															<a href="?edit=true" class="btn btn-primary">Kemaskini</a>
+															<a href="?edit=true" class="btn btn-primary">kemaskinilah</a>
 														</div>
 													<?php } ?>
 									</form>
