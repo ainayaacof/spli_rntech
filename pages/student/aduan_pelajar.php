@@ -146,8 +146,7 @@
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <form id="formID" method='post' action='addFeedback_stDB.php'
-                                            enctype="multipart/form-data" onsubmit="return validateForm()">
+                                        <form id="formAduan" method='post' action='addFeedback_stDB.php' enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <p>
                                                     <label for="name">Pengadu</label>
@@ -157,7 +156,7 @@
                                                 <p>
                                                     <label for="date">Nama Pelajar Atau Penyelia<span
                                                             style="color: red;"> *</span></label>
-                                                    <select name="name" id="name" class="form-control">
+                                                    <select name="name" id="AduName" class="form-control">
                                                         <option value=""> -- Pilih Nama -- </option>
                                                         <?php
                                                         // Display active students
@@ -180,14 +179,13 @@
                                                     $currenttime = date('h:i A');
                                                     ?>
                                                     <label for="aduan">Aduan<span style="color: red;"> *</span></label>
-                                                    <input class="form-control" name="aduan" id="aduan"
+                                                    <input class="form-control" name="aduan" id="aduanDibuat"
                                                         placeholder="Aduan yang ingin dikenakan">
                                                 </p>
                                                 <p>
                                                     <label for="date">Tarikh Aduan</label>
-                                                    <input type="form-control" class="form-control" name="date"
-                                                        id="date" value="<?php echo date('d/m/Y', strtotime($Date)); ?>"
-                                                        readonly>
+                                                    <input type="form-control" class="form-control" value="<?php echo date('d/m/Y', strtotime($Date)); ?>" readonly>
+                                                        <input type="hidden" name="date" id="date" value="<?php echo $Date; ?>">
                                                 </p>
                                                 <p>
                                                     <label for="masa">Masa Aduan</label>
@@ -198,15 +196,16 @@
                                                 <p>
                                                     <label for="type">Jenis Aduan<span style="color: red;">
                                                             *</span></label>
-                                                    <select name="type" id="type" class="form-control">
+                                                    <select name="type" id="jenisAduan" class="form-control">
                                                         <option value=""> -- Pilih Jenis Aduan -- </option>
                                                         <option value="Maklum Balas"> Maklum Balas </option>
                                                         <option value="Aduan"> Aduan </option>
                                                     </select>
                                                 </p>
                                                 <div style="text-align: right; margin-right: 0px;">
-                                                    <input type='submit' name='submit' value='Hantar'
-                                                        class='btn btn-primary'>
+                                                    <!-- <input type='submit' id='htrAduanST' value='Hantar' class='btn btn-primary'> -->
+                                                    <button type='submit' id='htrAduanST' class='btn btn-primary' style="margin-right:5px;">Simpan</button>
+                                                    <button type="button" id="btnClear" class="btn btn-secondary">Set Semula</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -231,7 +230,7 @@
     </div>
 
 
-    <script>
+    <!-- <script>
         function validateForm() {
             console.log("validateForm called");
             var name = document.getElementsByName("name")[0].value;
@@ -251,7 +250,82 @@
                 return true;
             }
         }
-    </script>
+    </script> -->
+
+    <script>
+		$(document).ready(function () {
+            // Function to clear form fields
+            function clearForm() {
+                $('#formAduan')[0].reset();
+            }
+
+            // Attach the clearForm function to the "Clear Form" button click event
+            $('#btnClear').on('click', function () {
+                var form = $(this).parents('form'); // Get the form element
+
+                // Check for required fields
+                var requiredFields = form.find('[required]');
+                var isValid = true;
+
+                // Remove any existing error messages "Sila isi ruangan ini"
+                form.find('.error-message').remove();
+                clearForm();
+            });
+
+			// Attach the form submission handling to the "Save" button click event
+			$('#htrAduanST').on('click', function (e) {
+				e.preventDefault();
+				var form = $('#formAduan'); // Get the form element
+
+				// Check for required fields
+				var requiredFields = form.find('[required]');
+				var isValid = true;
+
+				// Remove any existing error messages
+				form.find('.error-message').remove();
+
+				// print message on id studentName if the field is empty
+                if ($('#AduName').val().trim() === '') {
+                    isValid = false;
+                    $('#AduName').after('<span class="error-message" style="color:red">Sila pilih pelajar*</span>');
+                }
+
+				if ($('#aduanDibuat').val().trim() === '') {
+					isValid = false;
+					$('#aduanDibuat').after('<span class="error-message" style="color:red">Sila isi aduan yang ingin dikenakan*</span>');
+				}
+
+				if ($('#jenisAduan').val().trim() === '') {
+					isValid = false;
+					$('#jenisAduan').after('<span class="error-message" style="color:red">Sila pilih jenis aduan*</span>');
+				}
+
+				if (!isValid) {
+					return;
+				}
+				
+				else {
+					// Proceed with the SweetAlert confirmation
+					Swal.fire({
+						title: 'Anda pasti mahu simpan?',
+						text: 'Perubahan akan disimpan!',
+						icon: 'question',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Ya, simpan!',
+						cancelButtonText: 'Batal'
+					}).then((result) => {
+						// Check if the user clicked "Ya, simpan!"
+						if (result.isConfirmed) {
+							form.submit(); // Submit the form
+						}
+					});
+				}
+
+			});
+		});
+</script>
 
 </body>
 

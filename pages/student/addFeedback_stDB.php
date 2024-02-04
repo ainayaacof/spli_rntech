@@ -124,7 +124,7 @@ if ($stmt->execute()) {
 
 
         // Set the sender and recipient
-        $mail->setFrom('splirnta@gmail.com', 'Admin RN Tech');
+        $mail->setFrom('splirnta@gmail.com', 'RN Technologies Sdn. Bhd.');
         $mail->addAddress($studemail, $name);
 
         // Send the email
@@ -167,7 +167,7 @@ if ($stmt->execute()) {
         $mail->Body .= '<p>We thank you for your participation thus far and wish you the best in your future endeavors.</p>';
 
         // Set the sender and recipient
-        $mail->setFrom('splirnta@gmail.com', 'Admin RN Tech');
+        $mail->setFrom('splirnta@gmail.com', 'RN Technologies Sdn. Bhd.');
         $mail->addAddress($studemail, $name);
 
         // Send the email
